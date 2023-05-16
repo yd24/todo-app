@@ -21,7 +21,9 @@ const Todo = () => {
 
   useEffect(() => {
     let incomplete = todo.list.filter(item => !item.complete);
+    let initialList = todo.defaultValues.showCompleted ? todo.list : incomplete;
     todo.setIncomplete(incomplete);
+    todo.setResults(initialList, todo.activePage);
     document.title = `To Do List: ${incomplete.length}`;
     // linter will want 'incomplete' added to dependency array unnecessarily. 
     // disable code used to avoid linter warning 
