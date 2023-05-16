@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { TodoContext } from '../../Context/Settings';
 import { Pagination } from '@mantine/core';
 
