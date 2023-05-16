@@ -3,6 +3,14 @@
 ## Description
 A web application that allows you to manage to-do tasks in a list.
 
+## Deployed Site Demo
+
+
+## Installation
+* Requires npm and node.js to run.
+* Run npm install to install dependencies.
+* Use npm start to run application.
+
 ## Global State and Context
 In the current implementation, we have a few state options that are being used across multiple components:
 * Pagination state
