@@ -1,13 +1,9 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { TodoContext } from '../../Context/Settings';
 import { Pagination } from '@mantine/core';
 
 function List() {
   const todo = useContext(TodoContext);
-  const [activePage, setPage] = useState(1);
-  let tempList = todo.list.length > todo.defaultValues.numItemsToShow ? todo.list.slice(0, todo.defaultValues.numItemsToShow) : todo.list;
-  console.log(tempList);
-  todo.setPageList(tempList);
 
   function toggleComplete(id) {
     const items = todo.list.map( item => {
@@ -19,16 +15,17 @@ function List() {
     todo.setList(items);
   }
 
-  function updateList(e) {
-    let page = e.target.innerHTML * todo.defaultValues.numItemsToShow + 1;
-    let prev = (e.target.innerHTML - 1) * todo.defaultValues.numItemsToShow + 1;
-    tempList = todo.list.slice(prev, page);
-    //todo.setPageList(tempList);
+  function setActivePage(e) {
+    todo.setPage(e);
+    let initialList = todo.defaultValues.showCompleted ? todo.list : todo.incomplete;
+    todo.setResults(initialList, e);
   }
 
+  const inputList = todo.defaultValues.showCompleted ? todo.list : todo.incomplete;
+  const totalPages = Math.ceil(inputList.length / todo.defaultValues.numItemsToShow);
   return (
     <>
-    {todo.list.map(item => (
+    {todo.resultsList.map(item => (
       <div key={item.id}>
         <p>{item.text}</p>
         <p><small>Assigned to: {item.assignee}</small></p>
@@ -38,7 +35,7 @@ function List() {
       </div>
     ))
     }
-    <Pagination onClick={updateList} total={(todo.list.length / todo.defaultValues.numItemsToShow) + 1}/>
+    <Pagination value={todo.activePage} onChange={setActivePage} total={totalPages}/>
     </>
   );
 }
