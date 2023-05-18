@@ -27,7 +27,6 @@ function List() {
   const totalPages = Math.ceil(inputList.length / todo.defaultValues.numItemsToShow);
   return (
     <>
-    <Pagination className='pagination' value={todo.activePage} onChange={setActivePage} total={totalPages} position='center'/>
     {todo.resultsList.map(item => (
       <div key={item.id}>
         <p>{item.text}</p>
@@ -38,6 +37,7 @@ function List() {
       </div>
     ))
     }
+    <Pagination className='pagination' value={todo.activePage} onChange={setActivePage} total={totalPages} position='center'/>
     </>
   );
 }

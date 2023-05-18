@@ -33,7 +33,11 @@ export default class App extends React.Component {
 
               <Route
                 path='/settings'
-                element={<Settings />}
+                element={
+                <TodoProvider>
+                  <Settings />
+                </TodoProvider>
+                }
               >
               </Route>
             </Routes>

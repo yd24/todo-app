@@ -15,8 +15,18 @@ function TodoProvider(props) {
 
   const toggleShowCompleted = () => {
     let current = defaultValues.showCompleted;
-    setDefaultValue(current);
+    setDefaultValue({
+      ...defaultValues,
+      showCompleted: !current
+    });
   }
+
+  const updateItemsToShow = (value) => {
+    setDefaultValue({
+      ...defaultValues,
+      numItemsToShow: value
+    });
+  };
 
   const paginateResults = (initialList, currentPage) => {
     let start = currentPage > 1 ? (currentPage - 1) * defaultValues.numItemsToShow : 0;
@@ -31,11 +41,18 @@ function TodoProvider(props) {
   }
 
   const saveSettings = () => {
-    
+    localStorage.setItem('settings', JSON.stringify(defaultValues));
   };
 
+  React.useEffect(() => {
+    if (localStorage.getItem('settings') !== null) {
+      let settings = JSON.parse(localStorage.getItem('settings'));
+      setDefaultValue(settings);
+    }
+  }, []);
+
   return (
-    <TodoContext.Provider value={{defaultValues, list, incomplete, resultsList, activePage, setPage, setResults, setIncomplete, setList, toggleShowCompleted}}>
+    <TodoContext.Provider value={{defaultValues, list, incomplete, resultsList, activePage, saveSettings, updateItemsToShow, setPage, setResults, setIncomplete, setList, toggleShowCompleted}}>
       {props.children}
     </TodoContext.Provider>
   )
