@@ -2,28 +2,20 @@ import React from 'react';
 export const TodoContext = React.createContext();
 
 function TodoProvider(props) {
+  //state values
   const [defaultValues, setDefaultValue] = React.useState({
     difficulty: 4,
     numItemsToShow: 3,
     showCompleted: false,
   });
-
   const [incomplete, setIncomplete] = React.useState([]);
   const [list, setList] = React.useState([]);
   const [resultsList, setResultsList] = React.useState([]);
   const [activePage, setPage] = React.useState(1);
 
   const toggleShowCompleted = () => {
-    switch(defaultValues.showCompleted) {
-      case true:
-        setDefaultValue({...defaultValues, showCompleted: false});
-        break;
-      case false:
-        setDefaultValue({...defaultValues, showCompleted: true});
-        break;
-      default:
-        setDefaultValue({...defaultValues, showCompleted: true});
-    }
+    let current = defaultValues.showCompleted;
+    setDefaultValue(current);
   }
 
   const paginateResults = (initialList, currentPage) => {
@@ -37,6 +29,10 @@ function TodoProvider(props) {
     let results = paginateResults(list, page);
     setResultsList(results);
   }
+
+  const saveSettings = () => {
+    
+  };
 
   return (
     <TodoContext.Provider value={{defaultValues, list, incomplete, resultsList, activePage, setPage, setResults, setIncomplete, setList, toggleShowCompleted}}>

@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import { TodoContext } from '../../Context/Settings';
 import { Pagination } from '@mantine/core';
 
+import './list.scss';
+
 function List() {
   const todo = useContext(TodoContext);
 
@@ -25,6 +27,7 @@ function List() {
   const totalPages = Math.ceil(inputList.length / todo.defaultValues.numItemsToShow);
   return (
     <>
+    <Pagination className='pagination' value={todo.activePage} onChange={setActivePage} total={totalPages} position='center'/>
     {todo.resultsList.map(item => (
       <div key={item.id}>
         <p>{item.text}</p>
@@ -35,7 +38,6 @@ function List() {
       </div>
     ))
     }
-    <Pagination value={todo.activePage} onChange={setActivePage} total={totalPages}/>
     </>
   );
 }
