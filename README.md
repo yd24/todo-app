@@ -4,7 +4,7 @@
 A web application that allows you to manage to-do tasks in a list.
 
 ## Deployed Site Demo
-https://dev--dainty-brioche-551c49.netlify.app/
+https://dainty-brioche-551c49.netlify.app/
 
 ## Installation
 * Requires npm and node.js to run.
@@ -27,3 +27,7 @@ It also has a few built-in functions that can be called:
 
 ## UML
 ![image](./UML1.png)
+
+## Changelog
+* 1.0 - Site has starter code and can display to-do items properly in a list.
+* 1.1 - Navigation and settings page added
