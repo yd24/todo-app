@@ -1,11 +1,13 @@
 import { useContext } from 'react';
-import { TodoContext } from '../../Context/Settings';
+import { TodoContext } from '../../Context/Results';
+import { SettingsContext } from '../../Context/Settings';
 import { Pagination } from '@mantine/core';
 
 import './list.scss';
 
 function List() {
   const todo = useContext(TodoContext);
+  const settings = useContext(SettingsContext);
 
   function toggleComplete(id) {
     const items = todo.list.map( item => {
@@ -19,12 +21,12 @@ function List() {
 
   function setActivePage(e) {
     todo.setPage(e);
-    let initialList = todo.defaultValues.showCompleted ? todo.list : todo.incomplete;
+    let initialList = settings.defaultValues.showCompleted ? todo.list : todo.incomplete;
     todo.setResults(initialList, e);
   }
 
-  const inputList = todo.defaultValues.showCompleted ? todo.list : todo.incomplete;
-  const totalPages = Math.ceil(inputList.length / todo.defaultValues.numItemsToShow);
+  const inputList = settings.defaultValues.showCompleted ? todo.list : todo.incomplete;
+  const totalPages = Math.ceil(inputList.length / settings.defaultValues.numItemsToShow);
   return (
     <>
     {todo.resultsList.map(item => (

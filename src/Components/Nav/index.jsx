@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { Button, createStyles, Navbar, Group, getStylesRef, rem } from '@mantine/core';
 import { NavLink, useLocation } from 'react-router-dom';
-import { TodoContext } from '../../Context/Settings';
+import { When } from 'react-if';
+import { LoginContext } from '../../Context/Login';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -67,7 +68,7 @@ function NavbarSimple() {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Home');
   const location = useLocation().pathname;
-  const todo = useContext(TodoContext);
+  const login = useContext(LoginContext);
 
   const links = data.map((item) => (
     <NavLink
@@ -81,29 +82,29 @@ function NavbarSimple() {
 
   //sets current route as active link
   useEffect(() => {
-    let link = data.find((ele) => {
-      return ele.link === location;
-    });
-    setActive(link.label);
+    if (login.loggedIn) {
+      let link = data.find((ele) => {
+        return ele.link === location;
+      });
+      setActive(link.label);
+    }
   },[location]);
 
   return (
     <Navbar width={{ sm: 300 }} p="md">
       <Navbar.Section grow>
         <Group className={classes.header}>
-          <h1>{todo.loggedIn ? `Welcome, ${todo.user.username}!` : `To-Do List`}</h1>
+          <h1>{login.loggedIn ? `Welcome, ${login.user.name}!` : `To-Do List`}</h1>
         </Group>
-        {todo.loggedIn
-        &&
-          links
-        }
+        <When condition={login.loggedIn}>
+          {links}
+        </When>
       </Navbar.Section>
-      {todo.loggedIn
-      &&
+      <When condition={login.loggedIn}>
         <Navbar.Section p={30} className={classes.footer}>
-          <Button onClick={todo.logout}>Log Out</Button>
+          <Button onClick={login.logout}>Log Out</Button>
         </Navbar.Section>
-      }
+      </When>
     </Navbar>
   );
 }
