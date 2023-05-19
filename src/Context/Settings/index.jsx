@@ -12,6 +12,8 @@ function TodoProvider(props) {
   const [list, setList] = React.useState([]);
   const [resultsList, setResultsList] = React.useState([]);
   const [activePage, setPage] = React.useState(1);
+  const [loggedIn, setLogin] = React.useState(false);
+  const [user, setUser] = React.useState({});
 
   const toggleShowCompleted = () => {
     let current = defaultValues.showCompleted;
@@ -44,6 +46,20 @@ function TodoProvider(props) {
     localStorage.setItem('settings', JSON.stringify(defaultValues));
   };
 
+  const login = (username, password) => {
+    let user = {
+      username: username,
+      password: password,
+    };
+    setUser(user);
+    setLogin(true);
+  };
+
+  const logout = () => {
+    setUser({});
+    setLogin(false);
+  };
+
   React.useEffect(() => {
     if (localStorage.getItem('settings') !== null) {
       let settings = JSON.parse(localStorage.getItem('settings'));
@@ -52,7 +68,7 @@ function TodoProvider(props) {
   }, []);
 
   return (
-    <TodoContext.Provider value={{defaultValues, list, incomplete, resultsList, activePage, saveSettings, updateItemsToShow, setPage, setResults, setIncomplete, setList, toggleShowCompleted}}>
+    <TodoContext.Provider value={{user, loggedIn, defaultValues, list, incomplete, resultsList, activePage, login, logout, saveSettings, updateItemsToShow, setPage, setResults, setIncomplete, setList, toggleShowCompleted}}>
       {props.children}
     </TodoContext.Provider>
   )

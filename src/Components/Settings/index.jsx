@@ -6,7 +6,7 @@ function Settings() {
   const todo = useContext(TodoContext);
   const [updated, setUpdated] = useState(false);
 
-  return (
+  return todo.loggedIn ? (
     <>
       <div>
         <h1>Settings</h1>
@@ -23,8 +23,9 @@ function Settings() {
         </div>
       }
     </>
-
-  );
+  )
+  :
+  null;
 }
 
 export default Settings;

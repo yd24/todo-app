@@ -2,9 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Settings from './Components/Settings';
 import NavbarSimple from './Components/Nav';
-import Header from './Components/Header';
-import Todo from './Components/Todo';
-import List from './Components/List';
+import Main from './Components/Main';
 import Footer from './Components/Footer';
 import TodoProvider from './Context/Settings';
 
@@ -15,32 +13,22 @@ export default class App extends React.Component {
     return (
       <Router>
         <div className='container'>
-          <NavbarSimple />
+          <TodoProvider>
+            <NavbarSimple />
             <Routes>
               <Route
                 exact path='/'
-                element={
-                  <div>
-                    <TodoProvider>
-                      <Header />
-                      <Todo />
-                      <List />
-                    </TodoProvider>
-                  </div>
-                }
+                element={<Main />}
               >
               </Route>
 
               <Route
                 path='/settings'
-                element={
-                <TodoProvider>
-                  <Settings />
-                </TodoProvider>
-                }
+                element={<Settings />}
               >
               </Route>
             </Routes>
+          </TodoProvider>
         </div>
         <Footer />
       </Router>
