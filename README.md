@@ -30,4 +30,5 @@ It also has a few built-in functions that can be called:
 
 ## Changelog
 * 1.0 - Site has starter code and can display to-do items properly in a list.
-* 1.1 - Navigation and settings page added
+* 1.1 - Navigation and settings page added.
+* 1.2 - Login form and authorization added. To-do list and Settings are now protected routes.
