@@ -85,10 +85,10 @@ function LoginProvider(props) {
     if (token) {
       validateToken(token);
     }
-  },[]);
+  },[]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <LoginContext.Provider value={{loggedIn, user, login, logout, can}}>
+    <LoginContext.Provider value={{loggedIn, user, error, login, logout, can}}>
       {props.children}
     </LoginContext.Provider>
   );
