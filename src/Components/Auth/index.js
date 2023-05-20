@@ -9,7 +9,7 @@ function Login(props) {
   const context = React.useContext(LoginContext);
 
   const isLoggedIn = context.loggedIn;
-  const canDo = props.capability ? context.can(props.capability) : true;
+  const canDo = context.user.capability ? context.can(context.user.capability) : true;
   const okToRender = isLoggedIn && canDo;
 
   return (

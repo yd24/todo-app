@@ -53,11 +53,15 @@ function LoginProvider(props) {
   const logout = () => {
     setLoggedIn(false);
     setUser({});
+    cookie.remove('auth');
   };
 
   const validateToken = (token) => {
     try {
       let validUser = jwt_decode(token);
+      let cap = validUser.capabilities;
+      cap = cap.replace(/'/g, '"');
+      validUser.capabilities = JSON.parse(cap);
       setLoginState(validUser, token);
     }
     catch (e) {

@@ -1,11 +1,13 @@
 import { Switch, NumberInput } from '@mantine/core';
 import { SettingsContext } from '../../Context/Settings';
+import { LoginContext } from '../../Context/Login';
 
 import { useContext, useState } from 'react';
 import { When } from 'react-if';
 
 function Settings() {
   const settings = useContext(SettingsContext);
+  const login = useContext(LoginContext);
   const [updated, setUpdated] = useState(false);
 
   return (
@@ -14,7 +16,7 @@ function Settings() {
         <h1>Settings</h1>
         <Switch checked={settings.defaultValues.showCompleted} onChange={(e) => { setUpdated(false); settings.toggleShowCompleted(); }}label='Show completed items.' />
         <NumberInput value={settings.defaultValues.numItemsToShow} label='Max number of items to display.' min={1} max={10} onChange={(e) => { setUpdated(false); settings.updateItemsToShow(e); }}/>
-        <button onClick={() => {setUpdated(true); settings.saveSettings();}}>Save Settings</button>
+        <button onClick={() => {setUpdated(true); settings.saveSettings();}} disabled={!login.can('write')}>Save Settings</button>
       </div>
       <When condition={updated}>
         <div>

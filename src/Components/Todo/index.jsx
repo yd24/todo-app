@@ -2,13 +2,15 @@ import { useEffect, useContext } from 'react';
 import useForm from '../../hooks/form';
 import { TodoContext } from '../../Context/Results';
 import { SettingsContext } from '../../Context/Settings';
-
+import { LoginContext } from '../../Context/Login';
 
 import { v4 as uuid } from 'uuid';
 
 const Todo = () => {
   const todo = useContext(TodoContext);
   const settings = useContext(SettingsContext);
+  const login = useContext(LoginContext);
+
   const { handleChange, handleSubmit } = useForm(addItem, settings.defaultValues);
 
   function addItem(item) {
@@ -55,7 +57,7 @@ const Todo = () => {
         </label>
 
         <label>
-          <button type="submit">Add Item</button>
+          <button type="submit" disabled={!login.can('write')}>Add Item</button>
         </label>
       </form>
     </>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { Button, createStyles, Navbar, Group, getStylesRef, rem } from '@mantine/core';
 import { NavLink, useLocation } from 'react-router-dom';
-import { When } from 'react-if';
+import { If, Else, Then, When } from 'react-if';
 import { LoginContext } from '../../Context/Login';
 
 const useStyles = createStyles((theme) => ({
@@ -62,6 +62,7 @@ const useStyles = createStyles((theme) => ({
 const data = [
   { link: '/', label: 'Home' },
   { link: '/settings', label: 'Settings' },
+  { link: '/login', label: 'Login'},
 ];
 
 function NavbarSimple() {
@@ -82,12 +83,10 @@ function NavbarSimple() {
 
   //sets current route as active link
   useEffect(() => {
-    if (login.loggedIn) {
-      let link = data.find((ele) => {
-        return ele.link === location;
-      });
-      setActive(link.label);
-    }
+    let link = data.find((ele) => {
+      return ele.link === location;
+    });
+    setActive(link.label);
   },[location]);
 
   return (
@@ -96,9 +95,14 @@ function NavbarSimple() {
         <Group className={classes.header}>
           <h1>{login.loggedIn ? `Welcome, ${login.user.name}!` : `To-Do List`}</h1>
         </Group>
-        <When condition={login.loggedIn}>
-          {links}
-        </When>
+        <If condition={login.loggedIn}>
+          <Then>
+            {links.slice(0, 2)}
+          </Then>
+          <Else>
+            {links[2]}
+          </Else>
+        </If>
       </Navbar.Section>
       <When condition={login.loggedIn}>
         <Navbar.Section p={30} className={classes.footer}>
