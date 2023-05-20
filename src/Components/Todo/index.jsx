@@ -19,10 +19,10 @@ const Todo = () => {
     todo.setList([...todo.list, item]);
   }
 
-  function deleteItem(id) {
+  /*function deleteItem(id) {
     const items = todo.list.filter( item => item.id !== id );
     todo.setList(items);
-  }
+  }*/
 
   useEffect(() => {
     let incomplete = todo.list.filter(item => !item.complete);
