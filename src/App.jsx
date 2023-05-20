@@ -1,13 +1,21 @@
+//dependencies
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+//Components
 import Settings from './Components/Settings';
 import NavbarSimple from './Components/Nav';
-import Header from './Components/Header';
-import Todo from './Components/Todo';
-import List from './Components/List';
+import Main from './Components/Main';
 import Footer from './Components/Footer';
-import TodoProvider from './Context/Settings';
+import Auth from './Components/Auth';
+import LoginPage from './Components/LoginPage';
 
+//Context
+import TodoProvider from './Context/Results';
+import SettingsProvider from './Context/Settings';
+import LoginProvider from './Context/Login';
+
+//CSS
 import './App.scss';
 
 export default class App extends React.Component {
@@ -15,32 +23,44 @@ export default class App extends React.Component {
     return (
       <Router>
         <div className='container'>
-          <NavbarSimple />
-            <Routes>
-              <Route
-                exact path='/'
-                element={
-                  <div>
-                    <TodoProvider>
-                      <Header />
-                      <Todo />
-                      <List />
-                    </TodoProvider>
-                  </div>
-                }
-              >
-              </Route>
+            <LoginProvider>
+              <NavbarSimple />
+              <Routes>
+                <Route
+                  exact path='/'
+                  element={
+                    <Auth>
+                      <SettingsProvider>
+                        <TodoProvider>
+                          <Main />
+                        </TodoProvider>
+                      </SettingsProvider>
+                    </Auth>
+                  }
+                >
+                </Route>
 
-              <Route
-                path='/settings'
-                element={
-                <TodoProvider>
-                  <Settings />
-                </TodoProvider>
-                }
-              >
-              </Route>
-            </Routes>
+                <Route
+                  path='/settings'
+                  element={
+                    <Auth>
+                      <SettingsProvider>
+                        <Settings />
+                      </SettingsProvider>
+                    </Auth>
+                  }
+                >
+                </Route>
+
+                <Route
+                  path='/login'
+                  element={
+                    <LoginPage />
+                  }
+                >
+                </Route>
+              </Routes>
+            </LoginProvider>
         </div>
         <Footer />
       </Router>

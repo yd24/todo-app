@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { TodoContext } from '../../Context/Settings';
+import { TodoContext } from '../../Context/Results';
 
 function Header() {
   const todo = useContext(TodoContext);

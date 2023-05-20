@@ -1,12 +1,17 @@
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import useForm from '../../hooks/form';
-import { TodoContext } from '../../Context/Settings';
+import { TodoContext } from '../../Context/Results';
+import { SettingsContext } from '../../Context/Settings';
+import { LoginContext } from '../../Context/Login';
 
 import { v4 as uuid } from 'uuid';
 
 const Todo = () => {
   const todo = useContext(TodoContext);
-  const { handleChange, handleSubmit } = useForm(addItem, todo.defaultValues);
+  const settings = useContext(SettingsContext);
+  const login = useContext(LoginContext);
+
+  const { handleChange, handleSubmit } = useForm(addItem, settings.defaultValues);
 
   function addItem(item) {
     item.id = uuid();
@@ -21,7 +26,7 @@ const Todo = () => {
 
   useEffect(() => {
     let incomplete = todo.list.filter(item => !item.complete);
-    let initialList = todo.defaultValues.showCompleted ? todo.list : incomplete;
+    let initialList = settings.defaultValues.showCompleted ? todo.list : incomplete;
     todo.setIncomplete(incomplete);
     todo.setResults(initialList, todo.activePage);
     document.title = `To Do List: ${incomplete.length}`;
@@ -48,11 +53,11 @@ const Todo = () => {
 
         <label>
           <span>Difficulty</span>
-          <input onChange={handleChange} defaultValue={todo.defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
+          <input onChange={handleChange} defaultValue={settings.defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
         </label>
 
         <label>
-          <button type="submit">Add Item</button>
+          <button type="submit" disabled={!login.can('write')}>Add Item</button>
         </label>
       </form>
     </>

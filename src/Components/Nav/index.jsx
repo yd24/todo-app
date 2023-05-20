@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
-import { createStyles, Navbar, Group, getStylesRef, rem } from '@mantine/core';
+import { useState, useEffect, useContext } from 'react';
+import { Button, createStyles, Navbar, Group, getStylesRef, rem } from '@mantine/core';
 import { NavLink, useLocation } from 'react-router-dom';
+import { If, Else, Then, When } from 'react-if';
+import { LoginContext } from '../../Context/Login';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -60,12 +62,14 @@ const useStyles = createStyles((theme) => ({
 const data = [
   { link: '/', label: 'Home' },
   { link: '/settings', label: 'Settings' },
+  { link: '/login', label: 'Login'},
 ];
 
 function NavbarSimple() {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Home');
   const location = useLocation().pathname;
+  const login = useContext(LoginContext);
 
   const links = data.map((item) => (
     <NavLink
@@ -82,18 +86,29 @@ function NavbarSimple() {
     let link = data.find((ele) => {
       return ele.link === location;
     });
-    console.log(link);
     setActive(link.label);
   },[location]);
 
   return (
     <Navbar width={{ sm: 300 }} p="md">
       <Navbar.Section grow>
-        <Group className={classes.header} position="apart">
-          <h1>To-Do List</h1>
+        <Group className={classes.header}>
+          <h1>{login.loggedIn ? `Welcome, ${login.user.name}!` : `To-Do List`}</h1>
         </Group>
-        {links}
+        <If condition={login.loggedIn}>
+          <Then>
+            {links.slice(0, 2)}
+          </Then>
+          <Else>
+            {links[2]}
+          </Else>
+        </If>
       </Navbar.Section>
+      <When condition={login.loggedIn}>
+        <Navbar.Section p={30} className={classes.footer}>
+          <Button onClick={login.logout}>Log Out</Button>
+        </Navbar.Section>
+      </When>
     </Navbar>
   );
 }
